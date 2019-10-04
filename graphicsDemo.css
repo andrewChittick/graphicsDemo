@@ -1,0 +1,23 @@
+/*comments
+ *
+ */
+
+header{
+	margin:auto;
+	border-radius:15px;
+	width:435px;
+	height:106px;
+}
+body{
+	color:darkRed;
+	background-color:gray;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-size:30px;
+	text-align:center;
+}
+#surface{
+	background-color:white;
+	border-radius:10px;
+	box-shadow: 0 2px 15px black;
+}
+
