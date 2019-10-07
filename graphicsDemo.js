@@ -8,6 +8,9 @@ var mouseDown;
 
 var radius;
 
+var oldX;
+var oldY;
+
 
 var count = parseInt(0);
 //array of coords
@@ -29,7 +32,15 @@ function init(){
 function catchMouse(e){
 	xDown= e.pageX + offsetX;
 	yDown= e.pageY + offsetY;
-	mouseDown = setInterval(line, 100);
+	//change shape here
+	//
+	oldX= xDown;
+	oldY= yDown;
+	//
+	mouseDown = setInterval(freeDraw, 100);
+	//
+	//
+	//
 }
 function release(e){
 	//stop drawing
@@ -42,6 +53,9 @@ function getCoords(e){
 	radius = Math.sqrt((charles - xDown)^2 + (duke - yDown)^2);
 	console.log(radius);
 }
+
+
+//SHAPES
 function line(){
 	canvas.onmousemove = getCoords;
 
@@ -54,6 +68,22 @@ function line(){
 	con.stroke();
 	con.closePath();
 }
+function freeDraw(){
+	canvas.onmousemove = getCoords;
+
+	//con.clearRect(0,0, 600, 600);
+	border();
+
+	con.beginPath();
+	con.moveTo(oldX, oldY);
+	con.lineTo(charles, duke);
+	con.stroke();
+	con.closePath();
+	oldX= charles;
+	oldY= duke;
+}
+
+
 function circle(){
 	canvas.onmousemove = getCoords;
 
