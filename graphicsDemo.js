@@ -1,17 +1,21 @@
+//canvas variables
 var canvas
 var con;
+
+//mouse coordinates
 var xDown = 0;
 var yDown = 0;
-var charles;
-var duke;
-var mouseDown;
-
-var radius;
-
+var xCoord;
+var yCoord;
 var oldX;
 var oldY;
+//for circle
+var radius;
 
+//mouse events
+var mouseDown;
 
+//maybe for save state?
 var count = parseInt(0);
 //array of coords
 
@@ -48,9 +52,9 @@ function release(e){
 	//save state
 }
 function getCoords(e){
-	charles = event.clientX + offsetX;
-	duke = event.clientY + offsetY;
-	radius = Math.sqrt((charles - xDown)^2 + (duke - yDown)^2);
+	xCoord = event.clientX + offsetX;
+	yCoord = event.clientY + offsetY;
+	radius = Math.sqrt((xCoord - xDown)^2 + (yCoord - yDown)^2);
 	console.log(radius);
 }
 
@@ -64,23 +68,24 @@ function line(){
 
 	con.beginPath();
 	con.moveTo(xDown, yDown);
-	con.lineTo(charles, duke);
+	con.lineTo(xCoord, yCoord);
 	con.stroke();
 	con.closePath();
 }
 function freeDraw(){
 	canvas.onmousemove = getCoords;
-
 	//con.clearRect(0,0, 600, 600);
+	
 	border();
-
+	//draw segment
 	con.beginPath();
 	con.moveTo(oldX, oldY);
-	con.lineTo(charles, duke);
+	con.lineTo(xCoord, yCoord);
 	con.stroke();
 	con.closePath();
-	oldX= charles;
-	oldY= duke;
+	//what was new is now old
+	oldX= xCoord;
+	oldY= yCoord;
 }
 
 
