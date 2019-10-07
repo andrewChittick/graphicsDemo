@@ -7,8 +7,6 @@ var xDown = 0;
 var yDown = 0;
 var xCoord;
 var yCoord;
-var oldX;
-var oldY;
 //for circle
 var radius;
 
@@ -38,10 +36,8 @@ function catchMouse(e){
 	yDown= e.pageY + offsetY;
 	//change shape here
 	//
-	oldX= xDown;
-	oldY= yDown;
 	//
-	mouseDown = setInterval(freeDraw, 100);
+	mouseDown = setInterval(freeDraw, 20);
 	//
 	//
 	//
@@ -50,12 +46,14 @@ function release(e){
 	//stop drawing
 	clearInterval(mouseDown);
 	//save state
+	//fix this
+	//canvas.restore();
 }
 function getCoords(e){
 	xCoord = event.clientX + offsetX;
 	yCoord = event.clientY + offsetY;
-	radius = Math.sqrt((xCoord - xDown)^2 + (yCoord - yDown)^2);
-	console.log(radius);
+	//radius = Math.sqrt((xCoord - xDown)^2 + (yCoord - yDown)^2);
+	//console.log(radius);
 }
 
 
@@ -79,13 +77,13 @@ function freeDraw(){
 	border();
 	//draw segment
 	con.beginPath();
-	con.moveTo(oldX, oldY);
+	con.moveTo(xDown, yDown);
 	con.lineTo(xCoord, yCoord);
 	con.stroke();
 	con.closePath();
 	//what was new is now old
-	oldX= xCoord;
-	oldY= yCoord;
+	xDown = xCoord;
+	yDown= yCoord;
 }
 
 
@@ -163,4 +161,9 @@ function border(){
 	//inner left
 	con.fillStyle = or;
 	con.fillRect(20, 40, 20, 520);
+
+	//draw title
+	con.font = "30px Arial";
+	con.fillStyle = "white";
+	con.fillText("Paint 2D", 240, 30);
 }

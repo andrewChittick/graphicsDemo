@@ -23,4 +23,33 @@ body{
 	left: 100px;
 	top: 25px;
 }
+button{
+	position: absolute;
+	top: 630px;
+	height:60px;
+	width:60px;
+}
+#draw{
+	background-color: green;
+	left: 280px;
+}
+#line{
+	background-color: red;
+	left: 340px;
+}
+#circle{
+	background-color: red;
+	left: 400px;
+}
+#rectangle{
+	background-color: red;
+	left: 460px;
+}
+#clear{
+	background-color: lightgray;
+	top: 690px;
+	left: 370px;
+	height: 40px;
+	width: 60px;
+}
 
