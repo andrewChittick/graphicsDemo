@@ -1,4 +1,8 @@
 //Andrew Chittick
+//date
+//
+////////////////////////////////////////////
+//
 //
 ///////////////////////////////////////////////////////////////////////
 //Global variables/constants
@@ -16,24 +20,26 @@ var yCoord;
 //for circle
 var radius;
 //for rectangle
-var riri;
+var width;
+var height;
 
 //mouse events
 var mouseDown;
 
 var shape = "freeDraw";
 
+//to save the state of canvas
+var image;
+
 const offsetX = parseInt(-100);
 const offsetY = parseInt(-25);
 
-//var statehood;
 
 //end vars
 ///////////////////////////////////////////////////////////////////////
 //
 //
-//beef up border tests
-//do rectangle
+//TODO
 //button images
 //documentation
 
@@ -61,8 +67,6 @@ function catchMouse(e){
 		mouseDown = setInterval(freeDraw, 20);
 	}
 	else if (shape == "line"){
-		//save canvas
-		//statehood = canvas.toDataURL();
 		mouseDown = setInterval(line, 20);
 	}
 	else if (shape == "circle"){
@@ -78,26 +82,13 @@ function catchMouse(e){
 function release(e){
 	//stop drawing
 	clearInterval(mouseDown);
-
-	//this is all for line
-	/*
-	con.beginPath();
-	con.moveTo(xDown, yDown);
-	con.lineTo(xCoord, yCoord);
-	con.stroke();
-	con.closePath();
-	*/
-
-	//save state
-	//fix this
-	//canvas.restore();
 }
 function getCoords(e){
 	xCoord = event.clientX + offsetX;
 	yCoord = event.clientY + offsetY;
-	diag = Math.sqrt((xCoord - xDown) **2 + (yCoord - yDown) **2);
-	radius = diag / 2; 
-	console.log(radius);
+	radius = Math.sqrt((xCoord - xDown) **2 + (yCoord - yDown) **2);
+	width = xCoord - xDown;
+	height = yCoord - yDown;
 }
 function setShape(newShape){
 	shape = newShape;
@@ -110,6 +101,22 @@ function setButtons(){ $("#freeDraw").css("background-color", "red");
 	$("#spiral").css("background-color", "red");
 	$("#"+shape).css("background-color", "green");
 }
+function clean(){
+	//clear the screen then replace image
+	con.clearRect(0,0, 600, 600);
+	con.putImageData(image, 0,0);
+}
+function checkBounds(){
+	if (xDown > 0 && xDown < 600){
+		if (yDown > 0 && yDown < 600){
+			return true;
+		}
+	}
+	else{
+		console.log("outofbounds");
+		return false;
+	}
+}
 
 ////////////////////////////////////////////////////////////////
 //SHAPES
@@ -117,68 +124,70 @@ function setButtons(){ $("#freeDraw").css("background-color", "red");
 	
 function freeDraw(){
 	canvas.onmousemove = getCoords;
-	
-	border();
-	//draw segment
-	con.beginPath();
-	con.moveTo(xDown, yDown);
-	con.lineTo(xCoord, yCoord);
-	con.stroke();
-	con.closePath();
-	//what was new is now old
-	//for next segment
-	xDown = xCoord;
-	yDown= yCoord;
+	if (checkBounds()){
+		//draw segment
+		con.beginPath();
+		con.moveTo(xDown, yDown);
+		con.lineTo(xCoord, yCoord);
+		con.stroke();
+		con.closePath();
+		//what was new is now old
+		//for next segment
+		xDown = xCoord;
+		yDown= yCoord;
+		//draw border
+		border();
+	}
 }
 function line(){
 	canvas.onmousemove = getCoords;
-
-	//clear the screen then replace image
-	con.clearRect(0,0, 600, 600);
-	con.putImageData(image, 0,0);
-
-	con.beginPath();
-	con.moveTo(xDown, yDown);
-	con.lineTo(xCoord, yCoord);
-	con.stroke();
-	con.closePath();
-	border();
+	clean();
+	if (checkBounds()){
+		con.beginPath();
+		con.moveTo(xDown, yDown);
+		con.lineTo(xCoord, yCoord);
+		con.stroke();
+		con.closePath();
+		border();
+	}
 }
 function circle(){
 	canvas.onmousemove = getCoords;
-
-	//clear the screen then replace image
-	con.clearRect(0,0, 600, 600);
-	con.putImageData(image, 0,0);
-
-	if (xDown < 700 && yDown < 600){
-	con.beginPath();
-	con.arc(xDown, yDown, radius, 0, 2 * Math.PI);
-	con.stroke();
-	con.closePath();
-	border();
+	clean();
+	if (checkBounds()){
+		con.beginPath();
+		con.arc(xDown, yDown, radius, 0, 2 * Math.PI);
+		con.stroke();
+		con.closePath();
+		border();
 	}
 }
 function rectangle(){
-	console.log("rectangle");
-	con.clearRect(0,0, 600, 600);
-	con.putImageData(image, 0,0);
+	canvas.onmousemove = getCoords;
+	clean();
+	if (checkBounds()){
+		con.beginPath();
+		con.strokeRect(xDown, yDown, width, height);
+		con.stroke();
+		con.closePath();
+		border();
+	}
 }
 function spiral(){
-	//line without clearRect
+	//line without clean
 	canvas.onmousemove = getCoords;
-	border();
-	con.beginPath();
-	con.moveTo(xDown, yDown);
-	con.lineTo(xCoord, yCoord);
-	con.stroke();
-	con.closePath();
+	if (checkBounds()){
+		con.beginPath();
+		con.moveTo(xDown, yDown);
+		con.lineTo(xCoord, yCoord);
+		con.stroke();
+		con.closePath();
+		border();
+	}
 }
 function clearScreen(){
 	con.clearRect(0,0,600,600);
 	border();
-	var poop = 4**2;
-	console.log(poop);
 }
 
 function border(){
