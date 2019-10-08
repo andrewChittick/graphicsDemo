@@ -1,3 +1,9 @@
+//Andrew Chittick
+//
+///////////////////////////////////////////////////////////////////////
+//Global variables/constants
+//
+//
 //canvas variables
 var canvas
 var con;
@@ -9,42 +15,79 @@ var xCoord;
 var yCoord;
 //for circle
 var radius;
+//for rectangle
+var riri;
 
 //mouse events
 var mouseDown;
 
-//maybe for save state?
-var count = parseInt(0);
-//array of coords
+var shape = "freeDraw";
 
 const offsetX = parseInt(-100);
 const offsetY = parseInt(-25);
+
+//var statehood;
+
+//end vars
+///////////////////////////////////////////////////////////////////////
+//
+//
+//beef up border tests
+//do rectangle
+//button images
+//documentation
+
 
 function init(){
 	canvas = document.getElementById("surface");
 	if (canvas.getContext){
 		con = canvas.getContext('2d');
 		border();
-		//mousing it 
-		//figure out shape
+		//mousin it 
 		document.onmousedown = catchMouse;
 		document.onmouseup = release;
 	}
 }
 function catchMouse(e){
+	//mouse down coordinates
 	xDown= e.pageX + offsetX;
 	yDown= e.pageY + offsetY;
-	//change shape here
-	//
-	//
-	mouseDown = setInterval(freeDraw, 20);
-	//
-	//
-	//
+
+	//save canvas
+	image = con.getImageData(0,0,600,600);
+
+	//check for which shape function
+	if (shape == "freeDraw"){
+		mouseDown = setInterval(freeDraw, 20);
+	}
+	else if (shape == "line"){
+		//save canvas
+		//statehood = canvas.toDataURL();
+		mouseDown = setInterval(line, 20);
+	}
+	else if (shape == "circle"){
+		mouseDown = setInterval(circle, 20);
+	}
+	else if (shape == "rectangle"){
+		mouseDown = setInterval(rectangle, 20);
+	}
+	else if (shape == "spiral"){
+		mouseDown = setInterval(spiral, 20);
+	}
 }
 function release(e){
 	//stop drawing
 	clearInterval(mouseDown);
+
+	//this is all for line
+	/*
+	con.beginPath();
+	con.moveTo(xDown, yDown);
+	con.lineTo(xCoord, yCoord);
+	con.stroke();
+	con.closePath();
+	*/
+
 	//save state
 	//fix this
 	//canvas.restore();
@@ -52,27 +95,28 @@ function release(e){
 function getCoords(e){
 	xCoord = event.clientX + offsetX;
 	yCoord = event.clientY + offsetY;
-	//radius = Math.sqrt((xCoord - xDown)^2 + (yCoord - yDown)^2);
-	//console.log(radius);
+	diag = Math.sqrt((xCoord - xDown) **2 + (yCoord - yDown) **2);
+	radius = diag / 2; 
+	console.log(radius);
+}
+function setShape(newShape){
+	shape = newShape;
+	setButtons();
+}
+function setButtons(){ $("#freeDraw").css("background-color", "red");
+	$("#line").css("background-color", "red");
+	$("#circle").css("background-color", "red");
+	$("#rectangle").css("background-color", "red");
+	$("#spiral").css("background-color", "red");
+	$("#"+shape).css("background-color", "green");
 }
 
-
+////////////////////////////////////////////////////////////////
 //SHAPES
-function line(){
-	canvas.onmousemove = getCoords;
-
-	con.clearRect(0,0, 600, 600);
-	border();
-
-	con.beginPath();
-	con.moveTo(xDown, yDown);
-	con.lineTo(xCoord, yCoord);
-	con.stroke();
-	con.closePath();
-}
+////////////////////////////////////////////////////////////////
+	
 function freeDraw(){
 	canvas.onmousemove = getCoords;
-	//con.clearRect(0,0, 600, 600);
 	
 	border();
 	//draw segment
@@ -82,23 +126,60 @@ function freeDraw(){
 	con.stroke();
 	con.closePath();
 	//what was new is now old
+	//for next segment
 	xDown = xCoord;
 	yDown= yCoord;
 }
+function line(){
+	canvas.onmousemove = getCoords;
 
+	//clear the screen then replace image
+	con.clearRect(0,0, 600, 600);
+	con.putImageData(image, 0,0);
 
+	con.beginPath();
+	con.moveTo(xDown, yDown);
+	con.lineTo(xCoord, yCoord);
+	con.stroke();
+	con.closePath();
+	border();
+}
 function circle(){
 	canvas.onmousemove = getCoords;
 
+	//clear the screen then replace image
 	con.clearRect(0,0, 600, 600);
-	border();
+	con.putImageData(image, 0,0);
 
+	if (xDown < 700 && yDown < 600){
 	con.beginPath();
 	con.arc(xDown, yDown, radius, 0, 2 * Math.PI);
 	con.stroke();
 	con.closePath();
+	border();
+	}
 }
-
+function rectangle(){
+	console.log("rectangle");
+	con.clearRect(0,0, 600, 600);
+	con.putImageData(image, 0,0);
+}
+function spiral(){
+	//line without clearRect
+	canvas.onmousemove = getCoords;
+	border();
+	con.beginPath();
+	con.moveTo(xDown, yDown);
+	con.lineTo(xCoord, yCoord);
+	con.stroke();
+	con.closePath();
+}
+function clearScreen(){
+	con.clearRect(0,0,600,600);
+	border();
+	var poop = 4**2;
+	console.log(poop);
+}
 
 function border(){
 	//make gradients for border
@@ -135,7 +216,6 @@ function border(){
 	or.addColorStop(1, "red");
 	
 	//draw frame
-	//
 	//
 	//top
 	con.fillStyle = ro;

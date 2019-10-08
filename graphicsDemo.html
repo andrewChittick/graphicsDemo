@@ -21,11 +21,12 @@ Always include this *before* your own js code (extremely important) -->
 		<p>Your browser does not support bowser</p>
 	</canvas>
 
-	<button id="draw">draw</button>
-	<button id="line">line</button>
-	<button id="circle">circle</button>
-	<button id="rectangle">rectangle</button>
-	<button id="clear">clear</button>
+	<button id="freeDraw" onclick = "setShape('freeDraw')">draw</button>
+	<button id="line" onclick = "setShape('line')">line</button>
+	<button id="circle" onclick = "setShape('circle')">circle</button>
+	<button id="rectangle" onclick = "setShape('rectangle')">rectangle</button>
+	<button id="spiral" onclick = "setShape('spiral')">spiral</button>
+	<button id="clear" onclick = "clearScreen()">clear</button>
 
 </body>
 </html>
