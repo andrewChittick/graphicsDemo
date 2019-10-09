@@ -1,3 +1,4 @@
+//graphicsDemo.js
 //Andrew Chittick
 //10/8/19
 //A 2d painting program using HTML canvas
@@ -19,7 +20,7 @@ var yDown = 0;
 var xCoord;
 var yCoord;
 //for circle
-var radius;
+var diameter;
 //for rectangle
 var width;
 var height;
@@ -41,7 +42,10 @@ const offsetY = parseInt(-25);
 //
 //
 
-//does stuff
+//
+//gets the con(text)
+//checks for mouse up and mouse down
+//
 function init(){
 	canvas = document.getElementById("surface");
 	if (canvas.getContext){
@@ -52,7 +56,11 @@ function init(){
 		document.onmouseup = release;
 	}
 }
-//does other stuff
+//
+//gets the coordinates of a mouse click
+//saves the image
+//sends to appropriate drawing functions at 20ms interval
+//
 function catchMouse(e){
 	//mouse down coordinates
 	xDown= e.pageX + offsetX;
@@ -78,21 +86,37 @@ function catchMouse(e){
 		mouseDown = setInterval(spiral, 20);
 	}
 }
+//
+//clears the interval(stops the drawing) after mouse up
+//
 function release(e){
 	//stop drawing
 	clearInterval(mouseDown);
 }
+//
+//sets the coordinates based on mouse position
+//sets diameter(circle) and width/height(rectangle)
+//
 function getCoords(e){
 	xCoord = event.clientX + offsetX;
 	yCoord = event.clientY + offsetY;
-	radius = Math.sqrt((xCoord - xDown) **2 + (yCoord - yDown) **2);
+	//circle
+	diameter = Math.sqrt((xCoord - xDown) **2 + (yCoord - yDown) **2);
+	//rectangle
 	width = xCoord - xDown;
 	height = yCoord - yDown;
 }
+//
+//sets the shape
+//sends to setButtons
+//
 function setShape(newShape){
 	shape = newShape;
 	setButtons();
 }
+//
+//makes the selected shapes button green and all others red
+//
 function setButtons(){ $("#freeDraw").css("background-color", "red");
 	$("#line").css("background-color", "red");
 	$("#circle").css("background-color", "red");
@@ -100,11 +124,18 @@ function setButtons(){ $("#freeDraw").css("background-color", "red");
 	$("#spiral").css("background-color", "red");
 	$("#"+shape).css("background-color", "green");
 }
+//
+//clears the screen then replaces image
+//
 function clean(){
-	//clear the screen then replace image
 	con.clearRect(0,0, 600, 600);
 	con.putImageData(image, 0,0);
 }
+//
+//prevents drawing when mouse clicks out of bounds
+//returns true if click is in canvas
+//returns false if click is outside of canvas
+//
 function checkBounds(){
 	if (xDown > 0 && xDown < 600){
 		if (yDown > 0 && yDown < 600){
@@ -112,7 +143,6 @@ function checkBounds(){
 		}
 	}
 	else{
-		console.log("outofbounds");
 		return false;
 	}
 }
@@ -121,6 +151,11 @@ function checkBounds(){
 //SHAPES
 ////////////////////////////////////////////////////////////////
 	
+//
+//draws short line segments
+//starting point of one line is ending point
+//of previous line
+//
 function freeDraw(){
 	canvas.onmousemove = getCoords;
 	if (checkBounds()){
@@ -138,6 +173,12 @@ function freeDraw(){
 		border();
 	}
 }
+//
+//draws a straight line from 
+//where mouse is clicked to 
+//where is is released
+//shows preview while mouse down
+//
 function line(){
 	canvas.onmousemove = getCoords;
 	clean();
@@ -150,17 +191,27 @@ function line(){
 		border();
 	}
 }
+//
+//draws a circle, center point is
+//where mouse down
+//shows preview while mouse down
+//
 function circle(){
 	canvas.onmousemove = getCoords;
 	clean();
 	if (checkBounds()){
 		con.beginPath();
-		con.arc(xDown, yDown, radius, 0, 2 * Math.PI);
+		con.arc(xDown, yDown, diameter, 0, 2 * Math.PI);
 		con.stroke();
 		con.closePath();
 		border();
 	}
 }
+//
+//draws a rectangle,upper right is
+//where mouse down
+//shows preview while mouse down
+//
 function rectangle(){
 	canvas.onmousemove = getCoords;
 	clean();
@@ -172,6 +223,12 @@ function rectangle(){
 		border();
 	}
 }
+//
+//draws lines
+//start point of lines is where mouse down
+//end point of lines at where mouse is moved
+//line without clean
+//
 function spiral(){
 	//line without clean
 	canvas.onmousemove = getCoords;
@@ -184,11 +241,17 @@ function spiral(){
 		border();
 	}
 }
+//
+//clears the canvas then draws the border
+//
 function clearScreen(){
 	con.clearRect(0,0,600,600);
 	border();
 }
-
+//
+//a rainbow gradiant border
+//with title 
+//
 function border(){
 	//make gradients for border
 	var ro = con.createLinearGradient(0,0,600,0);
@@ -254,4 +317,7 @@ function border(){
 	con.font = "30px Arial";
 	con.fillStyle = "white";
 	con.fillText("Paint 2D", 240, 30);
+	//draw me
+	con.font = "20px Arial";
+	con.fillText("Andrew Chittick", 230, 595);
 }
