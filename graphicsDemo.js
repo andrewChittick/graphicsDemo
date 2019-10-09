@@ -66,24 +66,34 @@ function catchMouse(e){
 	xDown= e.pageX + offsetX;
 	yDown= e.pageY + offsetY;
 
-	//save canvas
-	image = con.getImageData(0,0,600,600);
+	//if click is on canvas set initial values and
+	//send to selected shape function
+	if (checkBounds()){
+		//for initial drawing
+		xCoord=xDown;
+		yCoord=yDown;
+		diameter = 0;
+		width = 0;
+		height = 0;
+		//save canvas
+		image = con.getImageData(0,0,600,600);
 
-	//check for which shape function
-	if (shape == "freeDraw"){
-		mouseDown = setInterval(freeDraw, 20);
-	}
-	else if (shape == "line"){
-		mouseDown = setInterval(line, 20);
-	}
-	else if (shape == "circle"){
-		mouseDown = setInterval(circle, 20);
-	}
-	else if (shape == "rectangle"){
-		mouseDown = setInterval(rectangle, 20);
-	}
-	else if (shape == "spiral"){
-		mouseDown = setInterval(spiral, 20);
+		//check for which shape function
+		if (shape == "freeDraw"){
+			mouseDown = setInterval(freeDraw, 20);
+		}
+		else if (shape == "line"){
+			mouseDown = setInterval(line, 20);
+		}
+		else if (shape == "circle"){
+			mouseDown = setInterval(circle, 20);
+		}
+		else if (shape == "rectangle"){
+			mouseDown = setInterval(rectangle, 20);
+		}
+		else if (shape == "spiral"){
+			mouseDown = setInterval(spiral, 20);
+		}
 	}
 }
 //
@@ -158,20 +168,18 @@ function checkBounds(){
 //
 function freeDraw(){
 	canvas.onmousemove = getCoords;
-	if (checkBounds()){
-		//draw segment
-		con.beginPath();
-		con.moveTo(xDown, yDown);
-		con.lineTo(xCoord, yCoord);
-		con.stroke();
-		con.closePath();
-		//what was new is now old
-		//for next segment
-		xDown = xCoord;
-		yDown= yCoord;
-		//draw border
-		border();
-	}
+	//draw segment
+	con.beginPath();
+	con.moveTo(xDown, yDown);
+	con.lineTo(xCoord, yCoord);
+	con.stroke();
+	con.closePath();
+	//what was new is now old
+	//for next segment
+	xDown = xCoord;
+	yDown= yCoord;
+	//draw border
+	border();
 }
 //
 //draws a straight line from 
@@ -182,14 +190,12 @@ function freeDraw(){
 function line(){
 	canvas.onmousemove = getCoords;
 	clean();
-	if (checkBounds()){
-		con.beginPath();
-		con.moveTo(xDown, yDown);
-		con.lineTo(xCoord, yCoord);
-		con.stroke();
-		con.closePath();
-		border();
-	}
+	con.beginPath();
+	con.moveTo(xDown, yDown);
+	con.lineTo(xCoord, yCoord);
+	con.stroke();
+	con.closePath();
+	border();
 }
 //
 //draws a circle, center point is
@@ -199,13 +205,11 @@ function line(){
 function circle(){
 	canvas.onmousemove = getCoords;
 	clean();
-	if (checkBounds()){
-		con.beginPath();
-		con.arc(xDown, yDown, diameter, 0, 2 * Math.PI);
-		con.stroke();
-		con.closePath();
-		border();
-	}
+	con.beginPath();
+	con.arc(xDown, yDown, diameter, 0, 2 * Math.PI);
+	con.stroke();
+	con.closePath();
+	border();
 }
 //
 //draws a rectangle,upper right is
@@ -215,13 +219,11 @@ function circle(){
 function rectangle(){
 	canvas.onmousemove = getCoords;
 	clean();
-	if (checkBounds()){
-		con.beginPath();
-		con.strokeRect(xDown, yDown, width, height);
-		con.stroke();
-		con.closePath();
-		border();
-	}
+	con.beginPath();
+	con.strokeRect(xDown, yDown, width, height);
+	con.stroke();
+	con.closePath();
+	border();
 }
 //
 //draws lines
@@ -232,14 +234,12 @@ function rectangle(){
 function spiral(){
 	//line without clean
 	canvas.onmousemove = getCoords;
-	if (checkBounds()){
-		con.beginPath();
-		con.moveTo(xDown, yDown);
-		con.lineTo(xCoord, yCoord);
-		con.stroke();
-		con.closePath();
-		border();
-	}
+	con.beginPath();
+	con.moveTo(xDown, yDown);
+	con.lineTo(xCoord, yCoord);
+	con.stroke();
+	con.closePath();
+	border();
 }
 //
 //clears the canvas then draws the border
