@@ -1,7 +1,8 @@
 //Andrew Chittick
-//date
-//
-////////////////////////////////////////////
+//10/8/19
+//A 2d painting program using HTML canvas
+//features freedraw, line, circle, rectangle, and spiral modes
+///////////////////////////////////////////////////////////////////////
 //
 //
 ///////////////////////////////////////////////////////////////////////
@@ -39,11 +40,8 @@ const offsetY = parseInt(-25);
 ///////////////////////////////////////////////////////////////////////
 //
 //
-//TODO
-//button images
-//documentation
 
-
+//does stuff
 function init(){
 	canvas = document.getElementById("surface");
 	if (canvas.getContext){
@@ -54,6 +52,7 @@ function init(){
 		document.onmouseup = release;
 	}
 }
+//does other stuff
 function catchMouse(e){
 	//mouse down coordinates
 	xDown= e.pageX + offsetX;

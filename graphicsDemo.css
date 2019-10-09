@@ -14,35 +14,37 @@ body{
 }
 button{
 	position: absolute;
-	top: 630px;
+	left: 40px;
 	height:60px;
 	width:60px;
+	background-repeat: no-repeat;
 }
 #freeDraw{
 	background-color: green;
-	left: 250px;
+	background-image: url('images/freeDraw.png');
+	top: 145px;
 }
 #line{
 	background-color: red;
-	left: 310px;
+	background-image: url('images/line.png');
+	top: 205px;
 }
 #circle{
 	background-color: red;
-	left: 370px;
+	background-image: url('images/circle.png');
+	top: 265px;
 }
 #rectangle{
 	background-color: red;
-	left: 430px;
+	background-image: url('images/rectangle.png');
+	top: 325px;
 }
 #spiral{
 	background-color: red;
-	left: 490px;
+	background-image: url('images/spiral.png');
+	top: 385px;
 }	
 #clear{
 	background-color: lightgray;
-	top: 690px;
-	left: 370px;
-	height: 40px;
-	width: 60px;
+	top: 445px;
 }
-
