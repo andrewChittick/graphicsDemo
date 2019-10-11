@@ -217,7 +217,7 @@ function circle(){
 //shows preview while mouse down
 //
 function rectangle(){
-	canvas.onmousemove = getCoord;
+	canvas.onmousemove = getCoords;
 	clean();
 	con.beginPath();
 	con.strokeRect(xDown, yDown, width, height);
