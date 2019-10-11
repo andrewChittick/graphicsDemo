@@ -56,3 +56,13 @@ button{
 	font-weight: bold;
 	text-align: left;
 }
+#readme{
+	position: absolute;
+	background-color: lightgray;
+	text-align:center;
+	font-weight:bold;
+	height: 40px;
+	width: 120px;
+	top: 650px;
+	left: 340px;
+}

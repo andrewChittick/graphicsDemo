@@ -20,7 +20,7 @@ var yDown = 0;
 var xCoord;
 var yCoord;
 //for circle
-var diameter;
+var radius;
 //for rectangle
 var width;
 var height;
@@ -72,7 +72,7 @@ function catchMouse(e){
 		//for initial drawing
 		xCoord=xDown;
 		yCoord=yDown;
-		diameter = 0;
+		radius = 0;
 		width = 0;
 		height = 0;
 		//save canvas
@@ -111,7 +111,7 @@ function getCoords(e){
 	xCoord = event.clientX + offsetX;
 	yCoord = event.clientY + offsetY;
 	//circle
-	diameter = Math.sqrt((xCoord - xDown) **2 + (yCoord - yDown) **2);
+	radius = Math.sqrt((xCoord - xDown) **2 + (yCoord - yDown) **2);
 	//rectangle
 	width = xCoord - xDown;
 	height = yCoord - yDown;
@@ -206,7 +206,7 @@ function circle(){
 	canvas.onmousemove = getCoords;
 	clean();
 	con.beginPath();
-	con.arc(xDown, yDown, diameter, 0, 2 * Math.PI);
+	con.arc(xDown, yDown, radius, 0, 2 * Math.PI);
 	con.stroke();
 	con.closePath();
 	border();
@@ -217,7 +217,7 @@ function circle(){
 //shows preview while mouse down
 //
 function rectangle(){
-	canvas.onmousemove = getCoords;
+	canvas.onmousemove = getCoord;
 	clean();
 	con.beginPath();
 	con.strokeRect(xDown, yDown, width, height);
