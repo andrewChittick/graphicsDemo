@@ -1,7 +1,7 @@
 /************************
  * graphicsDemo.css
  * Andrew Chittick
- * 9/27/19
+ * 9/27/19k
  ***********************/
 
 
@@ -48,7 +48,7 @@ button{
 	background-color: red;
 	background-image: url('images/spiral.png');
 	top: 385px;
-}	
+}
 #clear{
 	background-color: lightgray;
 	top: 445px;
